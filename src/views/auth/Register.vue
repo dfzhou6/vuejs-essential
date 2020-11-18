@@ -9,24 +9,24 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <label class="control-label">用户名</label>
-                        <input type="text" class="form-control" placeholder="请填写用户名">
+                        <input v-model="username" type="text" class="form-control" placeholder="请填写用户名">
                     </div>
                     <div class="form-group">
                         <label class="control-label">密码</label>
-                        <input type="password" class="form-control" placeholder="请填写密码">
+                        <input v-model="password" type="password" class="form-control" placeholder="请填写密码">
                     </div>
                     <div class="form-group">
                         <label class="control-label">确认密码</label>
-                        <input type="password" class="form-control" placeholder="请填写确认密码">
+                        <input v-model="cPassword" type="password" class="form-control" placeholder="请填写确认密码">
                     </div>
                     <div class="form-group">
                         <label class="control-label">图片验证码</label>
-                        <input type="text" class="form-control" placeholder="请填写验证码">
+                        <input v-model="captcha" type="text" class="form-control" placeholder="请填写验证码">
                     </div>
                     <div class="thumbnail" title="点击图片重新获取验证码" @click="getCaptcha">
                         <div class="captcha vcenter" v-html="captchaTpl"></div>
                     </div>
-                    <button type="submit" class="btn btn-lg btn-success btn-block">
+                    <button type="submit" class="btn btn-lg btn-success btn-block" @click="submit">
                         <i class="fa fa-btn fa-sign-in"></i> 注册
                     </button>
                 </div>
@@ -37,12 +37,17 @@
 
 <script>
     import createCaptcha from '@/utils/createCaptcha'
+    import TheHeader from "../../components/layouts/TheHeader";
 
     export default {
         name: 'Register',
         data() {
             return {
-                captchaTpl: ''
+                captchaTpl: '',
+                captcha: '',
+                username: '',
+                password: '',
+                cPassword: ''
             }
         },
         methods: {
@@ -50,6 +55,27 @@
                 const {captchaCode, captchaTpl} = createCaptcha();
                 this.captchaCode = captchaCode;
                 this.captchaTpl = captchaTpl;
+            },
+            submit() {
+                if (this.username === '') {
+                    alert('username is empty');
+                    return false
+                }
+                if (this.password === '') {
+                    alert('password is empty');
+                    return false
+                }
+                if (this.password !== this.cPassword) {
+                    alert('password is not equal to cPassword');
+                    return false
+                }
+                if (this.captcha !== this.captchaCode) {
+                    this.getCaptcha();
+                    alert('captcha is invalid');
+                    return false;
+                }
+                alert('ok');
+                return true;
             }
         },
         created() {
