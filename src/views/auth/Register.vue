@@ -37,7 +37,6 @@
 
 <script>
     import createCaptcha from '@/utils/createCaptcha'
-    import TheHeader from "../../components/layouts/TheHeader";
 
     export default {
         name: 'Register',
@@ -57,8 +56,13 @@
                 this.captchaTpl = captchaTpl;
             },
             submit() {
+                const user = this.$store.state.user;
                 if (this.username === '') {
                     alert('username is empty');
+                    return false
+                }
+                if (user && this.username === user.username) {
+                    alert('username is same');
                     return false
                 }
                 if (this.password === '') {
@@ -74,6 +78,11 @@
                     alert('captcha is invalid');
                     return false;
                 }
+                const saveUser = {
+                    username: this.username,
+                    password: this.password
+                };
+                this.$store.dispatch('login', saveUser);
                 alert('ok');
                 return true;
             }
