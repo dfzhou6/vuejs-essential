@@ -22,6 +22,21 @@ const routes = [
     {
         path: '*',
         redirect: '/'
+    },
+    {
+        path: '/users/1/edit',
+        name: 'UsersEdit',
+        component: () => import('@/views/users/Edit'),
+        children: [
+            {
+                path: '',
+                name: 'EditProfile',
+                component: () => import('@/views/users/Profile'),
+                meta: {
+                    auth: true
+                }
+            }
+        ]
     }
 ];
 
@@ -35,6 +50,8 @@ router.beforeEach((to, from, next) => {
     if (auth && to.path.indexOf('/auth/') !== -1) {
         next('/')
     } else if (!auth && to.path.indexOf('/auth/') === -1) {
+        next('/auth/login')
+    } else if (!auth && to.meta.auth) {
         next('/auth/login')
     } else {
         next()
