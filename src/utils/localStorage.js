@@ -1,4 +1,4 @@
-const ls = localStorage
+const ls = localStorage;
 
 export default {
     setItem(key, value) {
