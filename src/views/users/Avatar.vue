@@ -13,7 +13,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-md-8">
-                            <input class="form-control avatar-input" type="text" v-model.trim="avatar">
+                            <input class="form-control avatar-input" type="text" v-model.trim.lazy="avatar">
                         </div>
                         <div class="clearfix"></div>
                     </div>
