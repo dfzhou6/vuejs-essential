@@ -28,11 +28,15 @@
         },
         beforeRouteEnter(to, from, next) {
             const fromName = from.name;
+            console.log(from);
             next(vm => {
                 if (vm.$store.state.auth) {
                     switch (fromName) {
                         case 'Register':
                             vm.$data.commonMessage = 'register success';
+                            break;
+                        case 'Create':
+                            vm.$data.commonMessage = 'post article success';
                             break;
                         default:
                             vm.$data.commonMessage = 'login success';

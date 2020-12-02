@@ -7,7 +7,8 @@ Vue.use(Vuex);
 
 const state = {
     user: ls.getItem('user'),
-    auth: ls.getItem('auth')
+    auth: ls.getItem('auth'),
+    articles: ls.getItem('articles')
 };
 
 const mutations = {
@@ -18,6 +19,10 @@ const mutations = {
     UPDATE_AUTH(state, auth) {
         state.auth = auth;
         ls.setItem('auth', auth)
+    },
+    UPDATE_ARTICLE(state, articles) {
+        state.articles = articles;
+        ls.setItem('articles', articles)
     }
 };
 
@@ -39,6 +44,40 @@ const actions = {
             user = {...stateUser, ...user}
         }
         commit('UPDATE_USER', user)
+    },
+    updateArticle({state, commit}, {article, articleId}) {
+        let articles = state.articles;
+        
+        if (!Array.isArray(articles)) {
+            articles = [];
+        }
+
+        if (article) {
+            const uid = 1;
+            const {title, content} = article;
+            const date = new Date();
+
+            if (articleId === undefined) {
+                const lastArticle = articles[articles.length - 1];
+
+                if (lastArticle) {
+                    articleId = parseInt(lastArticle.articleId) + 1;
+                } else {
+                    articleId = articles.length + 1;
+                }
+
+                articles.push({
+                    uid,
+                    articleId,
+                    title,
+                    content,
+                    date
+                })
+            }
+
+            commit('UPDATE_ARTICLE', articles);
+            router.push({name: 'Home'});
+        }
     }
 };
 
