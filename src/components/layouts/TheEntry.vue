@@ -14,6 +14,12 @@
                 </RouterLink>
             </li>
             <li>
+                <RouterLink to="/articles/create">
+                    <i class="fa fa-paint-brush text-md"></i>
+                    创作文章
+                </RouterLink>
+            </li>
+            <li>
                 <a href="#" @click="logout">
                     <i class="fa fa-sign-out text-md"></i>退出
                 </a>
